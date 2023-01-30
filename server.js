@@ -56,7 +56,10 @@ app.use("/opdRoutes", opds);
 app.use("/pathLabs", pathLabs);
 
 mongoose
-  .connect(process.env.MONGO_CONNECTION_URL, { useNewUrlParser: true })
+  .connect(
+    "mongodb://localhost:27017"
+    // process.env.MONGO_CONNECTION_URL
+    , { useNewUrlParser: true })
   .then(() =>
     app.listen(PORT, () => console.log(`Successfully connected to ${PORT}`))
   )
