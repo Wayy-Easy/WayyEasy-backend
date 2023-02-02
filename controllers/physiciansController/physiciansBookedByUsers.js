@@ -21,10 +21,6 @@ export const fetchUsersBookedPhysician = async (req, res) => {
 export const createUsersBookedPhysician = async (req, res) => {
   const { physicianId } = req.params;
 
-  console.log(req.body);
-  console.log(req.user);
-  console.log(physicianId);
-
   try {
     let existingData, userAlreadyBooked, physicianData;
     existingData = await Model.findOne({ doctorId: physicianId });

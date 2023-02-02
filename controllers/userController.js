@@ -83,38 +83,7 @@ export const updateProfile = async (req, res) => {
     existingUser,
     newImage = data?.profileImage;
 
-  if (req.body?.fcmToken) {
-    try {
-      data = { ...data, fcmToken: req.body.fcmToken };
-      const updatedUser = await User.findByIdAndUpdate(req.user._id, data, {
-        new: true,
-      });
-
-      let bookedPhysicians = [];
-      bookedPhysicians = updatedUser?.physiciansBooked?.map(
-        (data) => data?.physicianId
-      );
-
-      for (let i = 0; i < bookedPhysicians.length; i++) {
-        if (bookedPhysicians[i]) {
-          await BookedPhysician.updateOne(
-            { doctorId: bookedPhysicians[i], "userList.userId": req.user._id },
-            {
-              $set: {
-                "userList.$.fcmToken": req.body?.fcmToken,
-              },
-            }
-          );
-        }
-      }
-
-      res.send({ message: "Token updated successfully" });
-    } catch (error) {
-      res.send({ message: error.message });
-    }
-  }
-
-  if (data.profileImage) {
+  if (newImage) {
     try {
       existingUser = await User.findById(req.user._id);
       imageToUPdate =
@@ -124,7 +93,7 @@ export const updateProfile = async (req, res) => {
         ".jpg";
       data = { ...data, profileImage: `files/images/${imageToUPdate}` };
     } catch (error) {
-      res.send({ message: error.message });
+      console.log("127 ", error);
     }
   }
 
@@ -150,12 +119,11 @@ export const updateProfile = async (req, res) => {
 
       fs.writeFile(imagePath, newImage, { encoding: "base64" }, (error) => {
         if (error) {
-          console.log("data", error);
+          console.log("data 153 ", error);
         }
       });
 
       if (existingUser?.profileImage) {
-        1;
         try {
           fs.unlinkSync(existingUser?.profileImage);
         } catch (error) {
@@ -165,8 +133,42 @@ export const updateProfile = async (req, res) => {
     }
     res.status(202).send(updatedData);
   } catch (error) {
-    console.log(error);
+    console.log("169 ", error);
     res.status(422).json({ error: error.message });
+  }
+};
+
+export const updateFCMToken = async (req, res) => {
+  let data = req.body;
+  if (req.body?.fcmToken) {
+    try {
+      data = { ...data, fcmToken: req.body.fcmToken };
+      const updatedUser = await User.findByIdAndUpdate(req.user._id, data, {
+        new: true,
+      });
+
+      let bookedPhysicians = [];
+      bookedPhysicians = updatedUser?.physiciansBooked?.map(
+        (data) => data?.physicianId
+      );
+
+      for (let i = 0; i < bookedPhysicians.length; i++) {
+        if (bookedPhysicians[i]) {
+          await BookedPhysician.updateOne(
+            { doctorId: bookedPhysicians[i], "userList.userId": req.user._id },
+            {
+              $set: {
+                "userList.$.fcmToken": req.body?.fcmToken,
+              },
+            }
+          );
+        }
+      }
+
+      res.status(201).send({ message: "Token updated successfully" });
+    } catch (error) {
+      console.log("113 ", error);
+    }
   }
 };
 
