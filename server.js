@@ -30,7 +30,7 @@ app.use(cors());
 const PORT = process.env.PORT || 2001;
 
 app.get("/", (req, res) => {
-  res.send("WayyEasy server is running successfully...");
+  res.send("WayyEasy server is running successfully. You can make calls now.");
 });
 
 app.use("/files/images", verifyAuth, express.static("files/images"));
