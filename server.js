@@ -43,7 +43,7 @@ app.use("/api/ratings", ratingRoutes);
 app.use("/api/room", roomRoutes);
 
 //user
-app.use("/user", userRoutes);
+app.use("/api/user", userRoutes);
 
 // doctors
 app.use("/api/physicians", physicians);
