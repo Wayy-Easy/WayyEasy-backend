@@ -57,7 +57,7 @@ app.use("/pathLabs", pathLabs);
 
 mongoose
   .connect(
-    "mongodb://localhost:27017"
+    "mongodb://127.0.0.1:27017/wayyeasy"
     // process.env.MONGO_CONNECTION_URL
     , { useNewUrlParser: true })
   .then(() =>
