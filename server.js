@@ -33,27 +33,27 @@ app.get("/", (req, res) => {
   res.send("WayyEasy server is running successfully. You can make calls now.");
 });
 
-app.use("/files/images", verifyAuth, express.static("files/images"));
+app.use("/api/files/images", verifyAuth, express.static("files/images"));
 
 //hospital
-app.use("/doctor", doctorRoutes);
-app.use("/hospital", hospitalRoutes);
-app.use("/owner", ownerRoutes);
-app.use("/ratings", ratingRoutes);
-app.use("/room", roomRoutes);
+app.use("/api/doctor", doctorRoutes);
+app.use("/api/hospital", hospitalRoutes);
+app.use("/api/owner", ownerRoutes);
+app.use("/api/ratings", ratingRoutes);
+app.use("/api/room", roomRoutes);
 
 //user
 app.use("/user", userRoutes);
 
 // doctors
-app.use("/physicians", physicians);
-app.use("/physicianBookedByUsers", usersBookedPhysicians);
+app.use("/api/physicians", physicians);
+app.use("/api/physicianBookedByUsers", usersBookedPhysicians);
 
 // opds
-app.use("/opdRoutes", opds);
+app.use("/api/opdRoutes", opds);
 
 // pathLabs
-app.use("/pathLabs", pathLabs);
+app.use("/api/pathLabs", pathLabs);
 
 mongoose
   .connect(
