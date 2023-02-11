@@ -22,9 +22,8 @@ import { verifyAuth } from "./middlewares/auth.js";
 
 const app = express();
 dotEnv.config();
-app.use(cors());
-app.use(express.json({ limit: "100mb", extended: true }));
-app.use(express.urlencoded({ limit: "100mb", extended: true }));
+app.use(express.json({ limit: "30mb", extended: true }));
+app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 const PORT = process.env.PORT || 2001;
