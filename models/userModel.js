@@ -87,6 +87,13 @@ const userSchema = new mongoose.Schema(
           type: Number,
           required: true,
         },
+        prescription: [
+          {
+            medType: String,
+            medName: String,
+            medDesc: String,
+          },
+        ],
         profileImage: {
           type: String,
           required: true,
@@ -109,7 +116,7 @@ userSchema.methods.generateJWT = function () {
       number: this.number,
       role: this.role,
     },
-    process.env.JWT_SECRET_KEY
+    process.env.USER_SECRET_KEY
     // { expiresIn: "365d" }
   );
   return token;

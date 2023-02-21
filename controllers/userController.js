@@ -64,7 +64,8 @@ export const verifyOtp = async (req, res) => {
       const user = new User(lodash.pick(req.body, ["number"]));
       const token = user.generateJWT();
       const result = await user.save();
-      const deleteOTP = await userOTPModel.deleteMany({
+
+      await userOTPModel.deleteMany({
         number: rightOTPFound.number,
       });
       return res.status(201).send({

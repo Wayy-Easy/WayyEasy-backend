@@ -104,3 +104,24 @@ export const createUsersBookedPhysician = async (req, res) => {
     res.json({ message: error.message });
   }
 };
+
+export const addUserPrescription = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    await userModel.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          "physiciansBooked.$[i].prescription": req.body,
+        },
+      },
+      {
+        arrayFilters: [{ "i.physicianId": req?.user?._id }],
+      }
+    );
+    res.status(201).send({ message: "Prescription updated successfully" });
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};

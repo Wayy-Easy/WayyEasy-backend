@@ -18,7 +18,7 @@ export const signup = async (req, res) => {
     result = await Model.create(data);
     token = jwt.sign(
       { _id: result._id.toString(), role: result.role.toString() },
-      process.env.JWT_SECRET_KEY
+      process.env.DOCTORS_SECRET_KEY
       //   { expiresIn: "1d" }
     );
     res.cookie("ownerToken", token, {
@@ -50,7 +50,7 @@ export const signin = async (req, res) => {
         // const token = await user.generateAuthToken();
         const token = jwt.sign(
           { _id: result._id.toString(), role: result.role.toString() },
-          process.env.JWT_SECRET_KEY
+          process.env.DOCTORS_SECRET_KEY
           //   { expiresIn: "1d" }
         );
         res.cookie("ownerToken", token, {
