@@ -93,9 +93,6 @@ export const createUsersBookedPhysician = async (req, res) => {
       }
     );
 
-    console.log(physicianData?.image);
-    console.log(req.body?.profileImage);
-
     res.json({
       result: "success",
       message: "Booking confirmed",
@@ -113,7 +110,7 @@ export const addUserPrescription = async (req, res) => {
       userId,
       {
         $set: {
-          "physiciansBooked.$[i].prescription": req.body,
+          "physiciansBooked.$[i].prescription": req?.body,
         },
       },
       {
@@ -122,6 +119,7 @@ export const addUserPrescription = async (req, res) => {
     );
     res.status(201).send({ message: "Prescription updated successfully" });
   } catch (error) {
+    console.error(error);
     res.json({ message: error.message });
   }
 };

@@ -53,10 +53,10 @@ export const signin = async (req, res) => {
           process.env.DOCTORS_SECRET_KEY
           //   { expiresIn: "1d" }
         );
-        res.cookie("ownerToken", token, {
-          expires: new Date(Date.now() + 36000000000),
-          httpOnly: true,
-        });
+        // res.cookie("ownerToken", token, {
+        //   expires: new Date(Date.now() + 36000000000),
+        //   httpOnly: true,
+        // });
         res.status(200).json({ result, token, message: "Login Successful" });
       } else return res.json({ message: "Incorrect credentails" });
     }

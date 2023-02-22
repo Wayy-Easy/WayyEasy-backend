@@ -37,7 +37,7 @@ app.use("/api/files/images", verifyUser, express.static("files/images"));
 
 //images fro doctors
 app.use(
-  "/api/files/images/doctors",
+  "/api/doctors/files/images",
   doctorsSignin,
   express.static("files/images")
 );
