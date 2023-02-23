@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  fetchUserById,
   getPhysiciansBooked,
   getUser,
   signup,
@@ -7,7 +8,7 @@ import {
   updateProfile,
   verifyOtp,
 } from "../controllers/userController.js";
-import { verifyUser } from "../middlewares/auth.js";
+import { doctorsSignin, verifyUser } from "../middlewares/auth.js";
 
 const router = express.Router();
 
@@ -17,5 +18,8 @@ router.patch("/update", verifyUser, updateProfile);
 router.patch("/updateFCMToken", verifyUser, updateFCMToken);
 router.get("/getUser", verifyUser, getUser);
 router.get("/physiciansBooked", verifyUser, getPhysiciansBooked);
+
+//for doctors app
+router.get("/fetchUserById/:userId", doctorsSignin, fetchUserById);
 
 export default router;

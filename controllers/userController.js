@@ -191,3 +191,16 @@ export const getPhysiciansBooked = async (req, res) => {
     res.json({ error: error.message });
   }
 };
+
+export const fetchUserById = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId, {
+      $match: {
+        "physiciansBooked.physicianId": req.user._id,
+      },
+    });
+    // res.send(user);
+    console.log(user);
+  } catch (error) {}
+};
