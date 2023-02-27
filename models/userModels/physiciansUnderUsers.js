@@ -1,15 +1,27 @@
 import mongoose from "mongoose";
 
-const usersBookedPhysicians = new mongoose.Schema(
+const physiciansUnderUders = new mongoose.Schema(
   {
-    doctorId: {
+    userId: {
       type: mongoose.Types.ObjectId,
       required: true,
     },
-    userList: [
+    physiciansList: [
       {
-        userId: {
+        physicianId: {
           type: mongoose.Types.ObjectId,
+          required: true,
+        },
+        physicianName: {
+          type: String,
+          required: true,
+        },
+        specialityType: {
+          type: String,
+          required: true,
+        },
+        fcmToken: {
+          type: String,
           required: true,
         },
         consultation: {
@@ -18,22 +30,17 @@ const usersBookedPhysicians = new mongoose.Schema(
           default: "pending",
           required: true,
         },
-        name: {
-          type: String,
-          required: true,
-        },
-        fcmToken: {
-          type: String,
-          required: true,
-        },
-        age: {
-          type: String,
-          required: true,
-        },
         amountPaid: {
           type: Number,
           required: true,
         },
+        prescription: [
+          {
+            medType: String,
+            medName: String,
+            medDesc: String,
+          },
+        ],
         profileImage: {
           type: String,
           required: true,
@@ -44,4 +51,4 @@ const usersBookedPhysicians = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("usersBookedPhysicians", usersBookedPhysicians);
+export default mongoose.model("physiciansUnderUders", physiciansUnderUders);

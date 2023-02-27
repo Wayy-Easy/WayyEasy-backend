@@ -49,6 +49,11 @@ const userSchema = new mongoose.Schema(
       required: false,
       trim: true,
     },
+    physicianLists: [
+      {
+        physicianId: mongoose.Types.ObjectId,
+      },
+    ],
     firebaseId: {
       type: String,
       required: false,
@@ -59,47 +64,6 @@ const userSchema = new mongoose.Schema(
       default: "user",
       required: false,
     },
-    physiciansBooked: [
-      {
-        physicianId: {
-          type: mongoose.Types.ObjectId,
-          required: true,
-        },
-        physicianName: {
-          type: String,
-          required: true,
-        },
-        specialityType: {
-          type: String,
-          required: true,
-        },
-        fcmToken: {
-          type: String,
-          required: true,
-        },
-        consultation: {
-          type: String,
-          enum: ["finished", "pending"],
-          default: "pending",
-          required: true,
-        },
-        amountPaid: {
-          type: Number,
-          required: true,
-        },
-        prescription: [
-          {
-            medType: String,
-            medName: String,
-            medDesc: String,
-          },
-        ],
-        profileImage: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
     profileImage: {
       type: String,
       required: false,

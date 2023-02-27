@@ -1,9 +1,10 @@
 import bcrypt from "bcrypt";
 import lodash from "lodash";
 import springedge from "springedge";
-import User from "../models/userModel.js";
-import userOTPModel from "../models/userOTPModel.js";
-import BookedPhysician from "../models/PhysiciansModels/usersBookedPhysician.js";
+import User from "../../models/userModels/userModel.js";
+import userOTPModel from "../../models/userModels/userOTPModel.js";
+import usersUnderPhysician from "../../models/PhysiciansModels/usersUnderPhysicians.js";
+import PhysiciansUnderUsers from "../../models/userModels/physiciansUnderUsers.js";
 import fs from "fs";
 
 export const signup = async (req, res) => {
@@ -142,33 +143,34 @@ export const updateProfile = async (req, res) => {
 export const updateFCMToken = async (req, res) => {
   let data = req.body;
   if (req.body?.fcmToken) {
+    console.log(req.body?.fcmToken)
     try {
       data = { ...data, fcmToken: req.body.fcmToken };
       const updatedUser = await User.findByIdAndUpdate(req.user._id, data, {
         new: true,
       });
 
-      let bookedPhysicians = [];
-      bookedPhysicians = updatedUser?.physiciansBooked?.map(
-        (data) => data?.physicianId
-      );
-
-      for (let i = 0; i < bookedPhysicians.length; i++) {
-        if (bookedPhysicians[i]) {
-          await BookedPhysician.updateOne(
-            { doctorId: bookedPhysicians[i], "userList.userId": req.user._id },
-            {
-              $set: {
-                "userList.$.fcmToken": req.body?.fcmToken,
-              },
-            }
-          );
-        }
+      for (let i = 0; i < updatedUser?.physicianLists?.length; i++) {
+       const data =  await usersUnderPhysician.updateMany(
+          {
+            doctorId: updatedUser.physicianLists[i].physicianId,
+          },
+          {
+            $set: {
+              "userList.$[i].fcmToken": req?.body.fcmToken,
+            },
+          },
+          {
+            arrayFilters: [{ "i.userId": req?.user?._id }],
+          }
+        );
       }
+
+      console.log(data)
 
       res.status(201).send({ message: "Token updated successfully" });
     } catch (error) {
-      console.log("113 ", error);
+      console.log("172 ", error);
     }
   }
 };
@@ -184,9 +186,16 @@ export const getUser = async (req, res) => {
 };
 
 export const getPhysiciansBooked = async (req, res) => {
+
   try {
-    const userData = await User.findById(req.user._id);
-    res.status(200).send(userData?.physiciansBooked);
+    const data = await PhysiciansUnderUsers.findOne({
+      userId: req.user._id,
+    });
+
+    if (data?.physiciansList != null && data.physiciansList.length > 0) {
+      res.status(200).send(data.physiciansList);
+    }
+
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -195,12 +204,21 @@ export const getPhysiciansBooked = async (req, res) => {
 export const fetchUserById = async (req, res) => {
   const { userId } = req.params;
   try {
-    const user = await User.findById(userId, {
-      $match: {
-        "physiciansBooked.physicianId": req.user._id,
-      },
-    });
-    // res.send(user);
-    console.log(user);
-  } catch (error) {}
+    const user = await PhysiciansUnderUsers.findOne(
+      { userId },
+      {
+        physiciansList: {
+          $elemMatch: {
+            physicianId: req?.user?._id,
+            consultation: "pending",
+          },
+        },
+      }
+    );
+
+    if (user?.physiciansList) res.json(Object.assign(user?.physiciansList[0]));
+    else res.json(user);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
 };

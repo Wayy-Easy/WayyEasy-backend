@@ -10,10 +10,10 @@ import ownerRoutes from "./routes/hospitalRoutes/ownerRoutes.js";
 import ratingRoutes from "./routes/hospitalRoutes/ratingRoutes.js";
 import roomRoutes from "./routes/hospitalRoutes/roomsRoutes.js";
 //user routes
-import userRoutes from "./routes/userRoutes.js";
+import userRoutes from "./routes/userRoutes/userRoutes.js";
 //physicians routes
 import physicians from "./routes/physiciansRoute/physicians.js";
-import usersBookedPhysicians from "./routes/physiciansRoute/usersBookedPhysician.js";
+import usersBookedPhysicians from "./routes/physiciansRoute/usersUnderPhysicians.js";
 //opd routes
 import opds from "./routes/opdRoutes/opds.js";
 //path routes

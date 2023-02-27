@@ -7,8 +7,8 @@ import {
   updateFCMToken,
   updateProfile,
   verifyOtp,
-} from "../controllers/userController.js";
-import { doctorsSignin, verifyUser } from "../middlewares/auth.js";
+} from "../../controllers/userControllers/userController.js";
+import { doctorsSignin, verifyUser } from "../../middlewares/auth.js";
 
 const router = express.Router();
 

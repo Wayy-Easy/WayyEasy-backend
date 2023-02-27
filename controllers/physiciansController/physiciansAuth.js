@@ -1,6 +1,6 @@
 import Model from "../../models/PhysiciansModels/Physicians.js";
-import UserListUnderDoctor from "../../models/PhysiciansModels/usersBookedPhysician.js";
-import User from "../../models/userModel.js";
+import UserUnderDoctor from "../../models/PhysiciansModels/usersUnderPhysicians.js";
+import physiciansUnderUsers from "../../models/userModels/physiciansUnderUsers.js";
 import jwt from "jsonwebtoken";
 import fs from "fs";
 
@@ -81,26 +81,23 @@ export const updateToken = async (req, res) => {
   let updatedPhysician,
     userData,
     bookedUsersList = [];
+
   try {
     data = { ...data, fcmToken: req.body.fcmToken };
     updatedPhysician = await Model.findByIdAndUpdate(req.user._id, data, {
       new: true,
     });
 
-    bookedUsersList = await UserListUnderDoctor.findOne({
-      doctorId: updatedPhysician?._id,
-    });
-
-    for (let i = 0; i < bookedUsersList?.userList?.length; i++) {
-      userData = await User.updateOne(
-        {
-          _id: bookedUsersList?.userList[i]?.userId,
-          "physiciansBooked.physicianId": updatedPhysician?._id,
-        },
+    for (let i = 0; i < updatedPhysician?.userLists?.length; i++) {
+      await physiciansUnderUsers.updateMany(
+        { userId: updatedPhysician.userLists[i].userId },
         {
           $set: {
-            "physiciansBooked.$.fcmToken": req.body?.fcmToken,
+            "physiciansList.$[i].fcmToken": req?.body.fcmToken,
           },
+        },
+        {
+          arrayFilters: [{ "i.physicianId": req?.user?._id }],
         }
       );
     }

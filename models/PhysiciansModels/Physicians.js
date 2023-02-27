@@ -79,6 +79,11 @@ const physiciansSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    userLists: [
+      {
+        userId: mongoose.Types.ObjectId,
+      },
+    ],
     email: {
       type: String,
       required: true,

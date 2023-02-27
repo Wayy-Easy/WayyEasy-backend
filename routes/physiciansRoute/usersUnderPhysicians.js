@@ -3,13 +3,13 @@ import {
   createUsersBookedPhysician,
   fetchUsersBookedPhysician,
   addUserPrescription,
-} from "../../controllers/physiciansController/physiciansBookedByUsers.js";
+} from "../../controllers/physiciansController/usersUnderPhysicians.js";
 import { doctorsSignin, verifyUser } from "../../middlewares/auth.js";
 
 const router = express.Router();
 
 router.get(
-  "/getPhysiciansUsersById/:physicianId",
+  "/getUsersUnderPhysician/:physicianId",
   doctorsSignin,
   fetchUsersBookedPhysician
 );
@@ -20,7 +20,7 @@ router.post(
   createUsersBookedPhysician
 );
 
-router.post(
+router.patch(
   "/addUserPrescriptions/:userId",
   doctorsSignin,
   addUserPrescription
