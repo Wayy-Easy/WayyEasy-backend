@@ -36,11 +36,13 @@ export const signup = async (req, res) => {
 };
 
 export const signin = async (req, res) => {
-  const { email, mobile, password } = req.body;
+  const password = req.body.password;
+  const email = req.body.email;
+  const mobile = req.body.email;
 
   try {
     const result = await Model.findOne({
-      $or: [{ email: email }, { mobile: mobile }],
+      $or: [{ mobile: req.body.email }, { email: req.body.email }],
     });
 
     if (!result) return res.json({ message: "User not found" });
@@ -239,6 +241,7 @@ export const getPhysiciansById = async (req, res) => {
 export const fetchAllPhysicians = async (req, res) => {
   try {
     const fetchedPhysicians = await Model.find({ status: "active" });
+    console.log(fetchedPhysicians);
     res.status(200).send(fetchedPhysicians);
   } catch (error) {
     res.json({ message: error.message });

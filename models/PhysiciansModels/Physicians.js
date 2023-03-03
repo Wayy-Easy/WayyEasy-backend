@@ -75,7 +75,7 @@ const physiciansSchema = new mongoose.Schema(
       required: true,
     },
     mobile: {
-      type: Number,
+      type: String,
       required: true,
       trim: true,
     },
@@ -95,6 +95,12 @@ const physiciansSchema = new mongoose.Schema(
     proofDocs: {
       type: String,
     },
+    shiftStart: {
+      type: String,
+    },
+    shiftEnd: {
+      type: String,
+    },
     firebaseId: {
       type: String,
     },
@@ -110,6 +116,12 @@ const physiciansSchema = new mongoose.Schema(
     isFull: {
       type: Boolean,
       default: false,
+    },
+    available: {
+      type: Boolean,
+      enum: [true, false],
+      default: true,
+      required: true,
     },
     status: {
       type: String,

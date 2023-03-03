@@ -143,7 +143,6 @@ export const updateProfile = async (req, res) => {
 export const updateFCMToken = async (req, res) => {
   let data = req.body;
   if (req.body?.fcmToken) {
-    console.log(req.body?.fcmToken)
     try {
       data = { ...data, fcmToken: req.body.fcmToken };
       const updatedUser = await User.findByIdAndUpdate(req.user._id, data, {
