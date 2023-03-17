@@ -21,6 +21,6 @@ router.patch("/updateToken", doctorsSignin, updateToken);
 
 // user routes
 router.get("/getPhysician", verifyUser, fetchAllPhysicians);
-router.get("/getPhysicianBookedByUser/:physicianId", verifyUser, getPhysiciansById);
+router.get("/getPhysiciansFromUser/:physicianId", verifyUser, getPhysiciansById);
 
 export default router;

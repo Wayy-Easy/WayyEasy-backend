@@ -59,13 +59,6 @@ export const createUsersBookedPhysician = async (req, res) => {
       }
     );
 
-    // if (existingPatient.userList.length > 0) {
-    //   return res.json({
-    //     result: "failed",
-    //     message: "Already booked",
-    //   });
-    // }
-
     physicianData = await Physicians.findById(physicianId);
 
     if (existingPatient) {
@@ -115,6 +108,7 @@ export const createUsersBookedPhysician = async (req, res) => {
                 physicianName: req?.body?.physicianName,
                 consultation: req?.body?.consultation,
                 amountPaid: req?.body?.amountPaid,
+                workingDays: req?.body?.workingDays,
                 profileImage: physicianData?.image,
                 specialityType: req?.body?.specialityType,
                 fcmToken: physicianData?.fcmToken,
@@ -132,6 +126,7 @@ export const createUsersBookedPhysician = async (req, res) => {
             physicianName: req?.body?.physicianName,
             consultation: req?.body?.consultation,
             amountPaid: req?.body?.amountPaid,
+            workingDays: req?.body?.workingDays,
             profileImage: physicianData?.image,
             specialityType: req?.body?.specialityType,
             fcmToken: physicianData?.fcmToken,
@@ -193,7 +188,7 @@ export const addUserPrescription = async (req, res) => {
 };
 
 export const finishConsultancyByDoctor = async (req, res) => {
-  const { userId } = req.params;
+  const { userId = "" } = req.params;
   try {
     await usersUnderPhysicians.updateOne(
       {
@@ -208,6 +203,16 @@ export const finishConsultancyByDoctor = async (req, res) => {
         arrayFilters: [{ "i.userId": userId }],
       }
     );
+
+    await Physicians.update(
+      { doctorId: req.user._id },
+      {
+        $pull: {
+          userLists: { userId: userId },
+        },
+      }
+    );
+
     res.status(200).json({ message: "Data updated Successfully." });
   } catch (error) {
     res.json({ message: error.message });

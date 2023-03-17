@@ -231,8 +231,8 @@ export const getPhysiciansById = async (req, res) => {
   const { physicianId } = req.params;
 
   try {
-    const fetechedPhysicians = await Model.findById(physicianId);
-    res.status(200).send(fetechedPhysicians);
+    const fetechedPhysician = await Model.findById(physicianId);
+    res.status(200).send(fetechedPhysician);
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -241,7 +241,6 @@ export const getPhysiciansById = async (req, res) => {
 export const fetchAllPhysicians = async (req, res) => {
   try {
     const fetchedPhysicians = await Model.find({ status: "active" });
-    console.log(fetchedPhysicians);
     res.status(200).send(fetchedPhysicians);
   } catch (error) {
     res.json({ message: error.message });

@@ -20,6 +20,9 @@ const physiciansUnderUders = new mongoose.Schema(
           type: String,
           required: true,
         },
+        workingDays: {
+          type: String,
+        },
         fcmToken: {
           type: String,
           required: true,

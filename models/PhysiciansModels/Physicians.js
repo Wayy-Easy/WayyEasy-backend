@@ -13,6 +13,9 @@ const physiciansSchema = new mongoose.Schema(
     qualification: {
       type: String,
     },
+    workingDays: {
+      type: String,
+    },
     specialityType: {
       type: String,
       enum: [

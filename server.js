@@ -64,9 +64,12 @@ app.use("/api/pathLabs", pathLabs);
 
 mongoose
   .connect(
-    "mongodb://127.0.0.1:27017/wayyeasy",
-    // process.env.MONGO_CONNECTION_URL,
-    { useNewUrlParser: true }
+    // "mongodb://127.0.0.1:27017/wayyeasy",
+    process.env.MONGO_CONNECTION_URL,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
   )
   .then(() =>
     app.listen(PORT, () => console.log(`Successfully connected to ${PORT}`))

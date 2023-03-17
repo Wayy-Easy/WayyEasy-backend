@@ -17,7 +17,7 @@ router.post("/verifyOTP", verifyOtp);
 router.patch("/update", verifyUser, updateProfile);
 router.patch("/updateFCMToken", verifyUser, updateFCMToken);
 router.get("/getUser", verifyUser, getUser);
-router.get("/physiciansBooked", verifyUser, getPhysiciansBooked);
+router.get("/physiciansBooked/:dataType", verifyUser, getPhysiciansBooked);
 
 //for doctors app
 router.get("/fetchUserById/:userId", doctorsSignin, fetchUserById);

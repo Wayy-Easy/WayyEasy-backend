@@ -150,7 +150,7 @@ export const updateFCMToken = async (req, res) => {
       });
 
       for (let i = 0; i < updatedUser?.physicianLists?.length; i++) {
-       const data =  await usersUnderPhysician.updateMany(
+        const data = await usersUnderPhysician.updateMany(
           {
             doctorId: updatedUser.physicianLists[i].physicianId,
           },
@@ -165,7 +165,7 @@ export const updateFCMToken = async (req, res) => {
         );
       }
 
-      console.log(data)
+      console.log(data);
 
       res.status(201).send({ message: "Token updated successfully" });
     } catch (error) {
@@ -185,17 +185,29 @@ export const getUser = async (req, res) => {
 };
 
 export const getPhysiciansBooked = async (req, res) => {
+  const { dataType } = req.params;
 
   try {
     const data = await PhysiciansUnderUsers.findOne({
       userId: req.user._id,
     });
 
-    if (data?.physiciansList != null && data.physiciansList.length > 0) {
-      res.status(200).send(data.physiciansList);
-    }
+    let physiciansList = data?.physiciansList?.filter(
+      (d) => d?.consultation === dataType
+    );
 
+    if (physiciansList && physiciansList?.length) {
+      res.json({
+        result: "success",
+        data: Object.assign(physiciansList),
+      });
+    } else {
+      res.json({
+        result: "failure",
+      });
+    }
   } catch (error) {
+    console.log("207 err: ", error);
     res.json({ error: error.message });
   }
 };
