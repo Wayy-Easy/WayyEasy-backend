@@ -66,6 +66,7 @@ mongoose
   .connect(
     // "mongodb://127.0.0.1:27017/wayyeasy",
     process.env.MONGO_CONNECTION_URL,
+    // process.env.MONGO_TEST_CONNECTION_URL,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

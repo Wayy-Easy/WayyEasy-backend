@@ -160,6 +160,7 @@ export const createUsersBookedPhysician = async (req, res) => {
       message: "Booking confirmed",
     });
   } catch (error) {
+    console.error(error);
     res.json({ message: error.message });
   }
 };
@@ -205,7 +206,7 @@ export const finishConsultancyByDoctor = async (req, res) => {
     );
 
     await Physicians.update(
-      { doctorId: req.user._id },
+      { _id: req.user._id },
       {
         $pull: {
           userLists: { userId: userId },

@@ -79,7 +79,7 @@ const physiciansSchema = new mongoose.Schema(
     },
     mobile: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
     },
     userLists: [
@@ -91,7 +91,7 @@ const physiciansSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    hashed_password: {
+    password: {
       type: String,
       required: true,
     },
@@ -136,14 +136,15 @@ const physiciansSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-physiciansSchema.virtual("password").set(function (password) {
-  this.hashed_password = bcrypt.hashSync(password, 12);
+physiciansSchema.pre("save", async function (next) {
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hashed_password = await bcrypt.hash(this.password, salt);
+    this.password = hashed_password;
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
-
-physiciansSchema.methods = {
-  authenticate: function (password) {
-    return bcrypt.compareSync(password, this.hashed_password);
-  },
-};
 
 export default mongoose.model("Physician", physiciansSchema);

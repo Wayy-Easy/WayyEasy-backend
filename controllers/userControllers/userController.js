@@ -5,6 +5,7 @@ import User from "../../models/userModels/userModel.js";
 import userOTPModel from "../../models/userModels/userOTPModel.js";
 import usersUnderPhysician from "../../models/PhysiciansModels/usersUnderPhysicians.js";
 import PhysiciansUnderUsers from "../../models/userModels/physiciansUnderUsers.js";
+import PhysicianRatings from "../../models/PhysiciansModels/PhysicianRatings.js";
 import fs from "fs";
 
 export const signup = async (req, res) => {
@@ -232,4 +233,43 @@ export const fetchUserById = async (req, res) => {
   } catch (error) {
     res.json({ error: error.message });
   }
+};
+
+export const finishConsultancyByUser = async (req, res) => {
+  const { physicianId = "" } = req.params;
+  try {
+    await PhysiciansUnderUsers.updateOne(
+      {
+        userId: req.user._id,
+      },
+      {
+        $set: {
+          "physiciansList.$[i].consultation": "finished",
+        },
+      },
+      {
+        arrayFilters: [{ "i.physicianId": physicianId }],
+      }
+    );
+
+    await User.update(
+      { _id: req.user._id },
+      {
+        $pull: {
+          physicianLists: { physicianId: physicianId },
+        },
+      }
+    );
+
+    res.status(200).json({ message: "Data updated Successfully." });
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
+
+export const ratePhysician = async (req, res) => {
+  try {
+    await PhysicianRatings.update(req.body);
+    res.send({ message: "Successfully Rated" });
+  } catch (error) {}
 };

@@ -1,8 +1,8 @@
 import Model from "../../models/PhysiciansModels/Physicians.js";
-import UserUnderDoctor from "../../models/PhysiciansModels/usersUnderPhysicians.js";
 import physiciansUnderUsers from "../../models/userModels/physiciansUnderUsers.js";
 import jwt from "jsonwebtoken";
 import fs from "fs";
+import bcrypt from "bcrypt";
 
 export const signup = async (req, res) => {
   const data = req.body;
@@ -15,12 +15,14 @@ export const signup = async (req, res) => {
 
     if (existingUser) return res.json({ message: "User already exists" });
 
-    result = await Model.create(data);
+    const physician = new Model(data);
+    result = await physician.save();
     token = jwt.sign(
       { _id: result._id.toString(), role: result.role.toString() },
       process.env.DOCTORS_SECRET_KEY
       //   { expiresIn: "1d" }
     );
+
     res.cookie("ownerToken", token, {
       expires: new Date(Date.now() + 36000000000),
       httpOnly: true,
@@ -31,14 +33,13 @@ export const signup = async (req, res) => {
       message: "User created successfully",
     });
   } catch (error) {
+    console.error(error);
     res.json({ message: error.message });
   }
 };
 
 export const signin = async (req, res) => {
   const password = req.body.password;
-  const email = req.body.email;
-  const mobile = req.body.email;
 
   try {
     const result = await Model.findOne({
@@ -47,21 +48,16 @@ export const signin = async (req, res) => {
 
     if (!result) return res.json({ message: "User not found" });
 
-    if (result) {
-      if (result.authenticate(password)) {
-        // const token = await user.generateAuthToken();
-        const token = jwt.sign(
-          { _id: result._id.toString(), role: result.role.toString() },
-          process.env.DOCTORS_SECRET_KEY
-          //   { expiresIn: "1d" }
-        );
-        // res.cookie("ownerToken", token, {
-        //   expires: new Date(Date.now() + 36000000000),
-        //   httpOnly: true,
-        // });
-        res.status(200).json({ result, token, message: "Login Successful" });
-      } else return res.json({ message: "Incorrect credentails" });
-    }
+    const matchedPassword = await bcrypt.compare(password, result.password);
+
+    if (matchedPassword) {
+      const token = jwt.sign(
+        { _id: result._id.toString(), role: result.role.toString() },
+        process.env.DOCTORS_SECRET_KEY
+        //   { expiresIn: "1d" }
+      );
+      res.status(200).json({ result, token, message: "Login Successful" });
+    } else return res.json({ message: "Incorrect credentails" });
   } catch (error) {
     console.error(error);
     res.json({ message: error.message });
@@ -239,10 +235,16 @@ export const getPhysiciansById = async (req, res) => {
 };
 
 export const fetchAllPhysicians = async (req, res) => {
+  let { limit = 14, page = 1 } = req.query;
   try {
-    const fetchedPhysicians = await Model.find({ status: "active" });
+    let startIndex = (Number(page) - 1) * limit;
+
+    const fetchedPhysicians = await Model.find({ status: "active" })
+      .limit(limit)
+      .skip(startIndex);
     res.status(200).send(fetchedPhysicians);
   } catch (error) {
+    console.log("error, ", error);
     res.json({ message: error.message });
   }
 };
