@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const physiciansRatingsSchema = new mongoose.Schema(
+const physiciansRatingSchema = new mongoose.Schema(
   {
     physicianId: {
       type: mongoose.Types.ObjectId,
@@ -13,7 +13,7 @@ const physiciansRatingsSchema = new mongoose.Schema(
           required: true,
         },
         ratings: {
-          type: String,
+          type: Number,
           required: true,
         },
         message: {
@@ -25,4 +25,4 @@ const physiciansRatingsSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("PhysicianRating", physiciansRatingsSchema);
+export default mongoose.model("PhysicianRating", physiciansRatingSchema);

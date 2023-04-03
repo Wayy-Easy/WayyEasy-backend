@@ -268,8 +268,41 @@ export const finishConsultancyByUser = async (req, res) => {
 };
 
 export const ratePhysician = async (req, res) => {
+  const { physicianId = "" } = req.params;
   try {
-    await PhysicianRatings.update(req.body);
+    let existingData = await PhysicianRatings.findOne({ physicianId });
+    if (existingData) {
+      await PhysicianRatings.updateOne(
+        { physicianId },
+        {
+          $push: {
+            ratings: {
+              user_id: req.user._id,
+              ratings: req.body.ratings,
+              message: req.body.message,
+            },
+          },
+        }
+      );
+    } else {
+      await PhysicianRatings.create({ physicianId });
+
+      await PhysicianRatings.updateOne(
+        { physicianId },
+        {
+          $push: {
+            ratings: {
+              user_id: req.user._id,
+              ratings: req.body.ratings,
+              message: req.body.message,
+            },
+          },
+        }
+      );
+    }
+
     res.send({ message: "Successfully Rated" });
-  } catch (error) {}
+  } catch (error) {
+    console.log("PhysicianRatings error: " + error.message);
+  }
 };
