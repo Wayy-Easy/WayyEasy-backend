@@ -51,21 +51,6 @@ const physiciansSchema = new mongoose.Schema(
         "Urologists",
       ],
     },
-    ratings: [
-      {
-        user_id: {
-          type: mongoose.Types.ObjectId,
-          required: true,
-        },
-        ratings: {
-          type: String,
-          required: true,
-        },
-        message: {
-          type: String,
-        },
-      },
-    ],
     badge: {
       type: String,
     },

@@ -6,6 +6,7 @@ import userOTPModel from "../../models/userModels/userOTPModel.js";
 import usersUnderPhysician from "../../models/PhysiciansModels/usersUnderPhysicians.js";
 import PhysiciansUnderUsers from "../../models/userModels/physiciansUnderUsers.js";
 import PhysicianRatings from "../../models/PhysiciansModels/PhysicianRatings.js";
+import Physicians from "../../models/PhysiciansModels/Physicians.js";
 import fs from "fs";
 
 export const signup = async (req, res) => {
@@ -252,11 +253,11 @@ export const finishConsultancyByUser = async (req, res) => {
       }
     );
 
-    await User.update(
-      { _id: req.user._id },
+    await Physicians.update(
+      { _id: physicianId },
       {
         $pull: {
-          physicianLists: { physicianId: physicianId },
+          userLists: { userId: req.user._id },
         },
       }
     );
@@ -269,7 +270,9 @@ export const finishConsultancyByUser = async (req, res) => {
 
 export const ratePhysician = async (req, res) => {
   const { physicianId = "" } = req.params;
+
   try {
+
     let existingData = await PhysicianRatings.findOne({ physicianId });
     if (existingData) {
       await PhysicianRatings.updateOne(
@@ -278,8 +281,11 @@ export const ratePhysician = async (req, res) => {
           $push: {
             ratings: {
               user_id: req.user._id,
-              ratings: req.body.ratings,
-              message: req.body.message,
+              ratings: req.body.physiciansRatings.rating,
+              message: req.body.physiciansRatings.review,
+              status: req.body.physiciansRatings.status,
+              userImage: req.body.physiciansRatings.userImage,
+              username: req.body.physiciansRatings.username,
             },
           },
         }
@@ -293,8 +299,11 @@ export const ratePhysician = async (req, res) => {
           $push: {
             ratings: {
               user_id: req.user._id,
-              ratings: req.body.ratings,
-              message: req.body.message,
+              ratings: req.body.physiciansRatings.rating,
+              message: req.body.physiciansRatings.review,
+              status: req.body.physiciansRatings.status,
+              userImage: req.body.physiciansRatings.userImage,
+              username: req.body.physiciansRatings.username,
             },
           },
         }

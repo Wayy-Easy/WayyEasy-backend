@@ -205,11 +205,11 @@ export const finishConsultancyByDoctor = async (req, res) => {
       }
     );
 
-    await Physicians.update(
-      { _id: req.user._id },
+    await User.update(
+      { _id: userId },
       {
         $pull: {
-          userLists: { userId: userId },
+          physicianLists: { physicianId: req.user._id },
         },
       }
     );

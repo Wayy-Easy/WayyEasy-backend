@@ -16,6 +16,20 @@ const physiciansRatingSchema = new mongoose.Schema(
           type: Number,
           required: true,
         },
+        status: {
+          type: String,
+          enum: ["success", "failed", "pending"],
+          default: "pending",
+          required: true,
+        },
+        userImage: {
+          type: String,
+          required: true,
+        },
+        username: {
+          type: String,
+          required: true,
+        },
         message: {
           type: String,
         },
