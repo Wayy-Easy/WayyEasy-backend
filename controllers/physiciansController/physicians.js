@@ -1,5 +1,4 @@
 import Model from "../../models/PhysiciansModels/Physicians.js";
-import physiciansUnderUsers from "../../models/userModels/physiciansUnderUsers.js";
 import jwt from "jsonwebtoken";
 import fs from "fs";
 import bcrypt from "bcrypt";
@@ -76,29 +75,12 @@ export const logout = (req, res) => {
 
 export const updateToken = async (req, res) => {
   let data = req.body;
-  let updatedPhysician,
-    userData,
-    bookedUsersList = [];
 
   try {
     data = { ...data, fcmToken: req.body.fcmToken };
-    updatedPhysician = await Model.findByIdAndUpdate(req.user._id, data, {
+    await Model.findByIdAndUpdate(req.user._id, data, {
       new: true,
     });
-
-    for (let i = 0; i < updatedPhysician?.userLists?.length; i++) {
-      await physiciansUnderUsers.updateMany(
-        { userId: updatedPhysician.userLists[i].userId },
-        {
-          $set: {
-            "physiciansList.$[i].fcmToken": req?.body.fcmToken,
-          },
-        },
-        {
-          arrayFilters: [{ "i.physicianId": req?.user?._id }],
-        }
-      );
-    }
 
     res.status(201).json({ message: "Token updated." });
   } catch (error) {

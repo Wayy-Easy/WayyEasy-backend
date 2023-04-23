@@ -9,13 +9,18 @@ import hospitalRoutes from "./routes/hospitalRoutes/hospitalRoutes.js";
 import ownerRoutes from "./routes/hospitalRoutes/ownerRoutes.js";
 import ratingRoutes from "./routes/hospitalRoutes/ratingRoutes.js";
 import roomRoutes from "./routes/hospitalRoutes/roomsRoutes.js";
+
 //user routes
 import userRoutes from "./routes/userRoutes/userRoutes.js";
+
 //physicians routes
 import physicians from "./routes/physiciansRoute/physicians.js";
-import usersBookedPhysicians from "./routes/physiciansRoute/usersUnderPhysicians.js";
+import physicianBookings from "./routes/bookings/physicianBookings.js";
+import physicianPrescription from "./routes/bookings/physicianPriscription.js";
+
 //opd routes
 import opds from "./routes/opdRoutes/opds.js";
+
 //path routes
 import pathLabs from "./routes/pathLabsRoute/pathLabs.js";
 import { doctorsSignin, verifyUser } from "./middlewares/auth.js";
@@ -52,9 +57,10 @@ app.use("/api/room", roomRoutes);
 //user
 app.use("/api/user", userRoutes);
 
-// doctors
+// physicians
 app.use("/api/physicians", physicians);
-app.use("/api/physicianBookedByUsers", usersBookedPhysicians);
+app.use("/api/physicianBookings", physicianBookings);
+app.use("/api/physicianPrescription", physicianPrescription);
 
 // opds
 app.use("/api/opdRoutes", opds);
