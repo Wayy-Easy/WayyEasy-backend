@@ -1,23 +1,49 @@
 import express from "express";
 import { doctorsSignin, verifyUser } from "../../middlewares/auth.js";
-import { bookPhysician, fetchAllBookingsByPhysician, fetchPhysiciansByUser, finishConsultation } from "../../controllers/bookings/physicianBookings.js";
+import {
+  bookPhysician,
+  fetchAllBookingsByPhysician,
+  fetchPhysiciansByUser,
+  fetchSinglePhysicianConsultationPendingByUser,
+  finishConsultation,
+} from "../../controllers/bookings/physicianBookings.js";
 
 const router = express.Router();
 
 //by user
-//to book user
+//to book physician
 router.post("/bookPhysician/:physicianId", verifyUser, bookPhysician);
 
 //by user
 //to finish consultation
-router.patch("/finishConsultation/:physicianId", verifyUser, finishConsultation);
+router.patch(
+  "/finishConsultation/:physicianId",
+  verifyUser,
+  finishConsultation
+);
 
 //by user
-//fetch all booking who are finished, pending all physicians list
-router.get("/fetchAllPhysiciansByUser/:dataType", verifyUser, fetchPhysiciansByUser);
+//fetch physician to check whether consultartion pending or not
+router.get(
+  "/fetchPhysicianConsultationStatus/:physicianId",
+  verifyUser,
+  fetchSinglePhysicianConsultationPendingByUser
+);
+
+//by user
+//fetch all booking who are finished and who are pending
+router.get(
+  "/fetchAllPhysiciansByUser/:dataType",
+  verifyUser,
+  fetchPhysiciansByUser
+);
 
 //by physicians
 //to get all bookings
-router.get("/fetchAllUsersByPhysician", doctorsSignin, fetchAllBookingsByPhysician);
+router.get(
+  "/fetchAllUsersByPhysician",
+  doctorsSignin,
+  fetchAllBookingsByPhysician
+);
 
 export default router;

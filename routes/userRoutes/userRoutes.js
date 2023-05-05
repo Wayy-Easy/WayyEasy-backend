@@ -1,9 +1,9 @@
 import express from "express";
 import {
-  finishConsultancyByUser,
   getUser,
   ratePhysician,
   signup,
+  updateFCMToken,
   updateProfile,
   verifyOtp,
 } from "../../controllers/userControllers/userController.js";
@@ -15,15 +15,8 @@ router.post("/signup", signup);
 router.post("/verifyOTP", verifyOtp);
 router.patch("/update", verifyUser, updateProfile);
 router.get("/getUser", verifyUser, getUser);
+router.patch('/updateFCMToken', verifyUser, updateFCMToken)
 
-// for user app
-router.patch(
-  "/finishConsultancyByUser/:physicianId",
-  verifyUser,
-  finishConsultancyByUser
-);
 router.post("/ratings/:physicianId", verifyUser, ratePhysician);
-
-//for doctors app
 
 export default router;

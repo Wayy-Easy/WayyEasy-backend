@@ -217,14 +217,23 @@ export const getPhysiciansById = async (req, res) => {
 };
 
 export const fetchAllPhysicians = async (req, res) => {
-  let { limit = 14, page = 1 } = req.query;
+  const { limit = 14, page = 1 } = req.query;
+  const { dataType } = req.params;
   try {
-    let startIndex = (Number(page) - 1) * limit;
+    if (dataType === "fetchAll") {
+      const startIndex = (Number(page) - 1) * limit;
 
-    const fetchedPhysicians = await Model.find({ status: "active" })
-      .limit(limit)
-      .skip(startIndex);
-    res.status(200).send(fetchedPhysicians);
+      const fetchedPhysicians = await Model.find({ status: "active" })
+        .limit(limit)
+        .skip(startIndex);
+      res.status(200).send(fetchedPhysicians);
+    } else {
+      const fetchedPhysicians = await Model.find({
+        specialityType: dataType,
+        status: "active",
+      });
+      res.status(200).send(fetchedPhysicians);
+    }
   } catch (error) {
     console.log("error, ", error);
     res.json({ message: error.message });

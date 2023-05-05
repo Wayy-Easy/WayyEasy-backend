@@ -150,20 +150,18 @@ export const getUser = async (req, res) => {
   }
 };
 
-export const finishConsultancyByUser = async (req, res) => {
-  const { physicianId = "" } = req.params;
-  try {
-    await Physicians.update(
-      { _id: physicianId },
-      {
-        $pull: {
-          userLists: { userId: req.user._id },
-        },
-      }
-    );
+export const updateFCMToken = async (req, res) => {
+  let data = req.body;
 
-    res.status(200).json({ message: "Data updated Successfully." });
+  try {
+    data = { ...data, fcmToken: req.body.fcmToken };
+    await User.findByIdAndUpdate(req.user._id, data, {
+      new: true,
+    });
+
+    res.status(201).json({ message: "Token updated." });
   } catch (error) {
+    console.error("error 84: ", error);
     res.json({ message: error.message });
   }
 };

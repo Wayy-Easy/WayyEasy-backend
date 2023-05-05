@@ -22,15 +22,7 @@ router.post("/signout", doctorsSignin, logout);
 router.get("/getPhysiciansById/:physicianId", doctorsSignin, getPhysiciansById);
 router.patch("/updateToken", doctorsSignin, updateToken);
 
-
-//unchecked
+router.get("/getPhysician/:dataType", verifyUser, fetchAllPhysicians);
 router.patch("/edit/:id", requireSignin, editPhysicians);
-
-router.get("/getPhysician", verifyUser, fetchAllPhysicians);
-router.get(
-  "/getPhysiciansFromUser/:physicianId",
-  verifyUser,
-  getPhysiciansById
-);
 
 export default router;

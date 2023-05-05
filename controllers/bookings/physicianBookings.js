@@ -1,5 +1,6 @@
 import PhysicianBooking from "../../models/bookings/physicianBookings.js";
 import UserModel from "../../models/userModels/userModel.js";
+import PhysiciansModel from "../../models/PhysiciansModels/Physicians.js";
 
 //by user
 //to book user
@@ -9,6 +10,7 @@ export const bookPhysician = async (req, res) => {
       userId: req.user._id,
       physicianId: req.params.physicianId,
     };
+
     const bookingData = await PhysicianBooking.create(data);
     res.send(bookingData);
   } catch (error) {
@@ -38,24 +40,59 @@ export const finishConsultation = async (req, res) => {
 };
 
 //by user
-//fetch all booking who are finished, pending all physicians list
+//fetch all booking who are finished and who are pending
 export const fetchPhysiciansByUser = async (req, res) => {
   const { dataType = null } = req.params;
   try {
-    if (dataType === "pending") {
-      const result = await PhysicianBooking.find({
-        $and: [{ userId: req.user._id }, { consultation: "pending" }],
-      });
-      res.send(result);
-    } else if (dataType === "finished") {
-      const result = await PhysicianBooking.find({
-        $and: [{ userId: req.user._id }, { consultation: "finished" }],
-      });
-      res.send(result);
+    let result = [];
+    if (dataType?.length > 5) {
+      if (dataType === "pending") {
+        result = await PhysicianBooking.find({
+          $and: [{ userId: req.user._id }, { consultation: "pending" }],
+        });
+      } else if (dataType === "finished") {
+        result = await PhysicianBooking.find({
+          $and: [{ userId: req.user._id }, { consultation: "finished" }],
+        });
+      }
+
+      result = result?.map((user) => user.physicianId);
+
+      result = await PhysiciansModel.find({ _id: { $in: result } });
+
+      if (result?.length > 0) {
+        res.send({ data: result });
+      } else {
+        res.send({ message: "No data found" });
+      }
     } else {
-      const result = await PhysicianBooking.find();
-      res.send(result);
+      res.send({ message: "Invalid request type." });
     }
+  } catch (error) {
+    res.send({ message: error.message });
+  }
+};
+
+//by user
+//fetch physician to check whether consultartion pending or not
+export const fetchSinglePhysicianConsultationPendingByUser = async (
+  req,
+  res
+) => {
+  try {
+    const result = await PhysicianBooking.find({
+      $and: [
+        {
+          userId: req.user._id,
+        },
+        { physicianId: req.params.physicianId },
+        { consultation: "pending" },
+      ],
+    });
+
+    if (result[0]) {
+      res.send(result[0]);
+    } else res.send({ message: "No booking found with this doctor" });
   } catch (error) {
     res.send({ message: error.message });
   }

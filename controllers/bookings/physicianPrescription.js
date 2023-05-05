@@ -67,6 +67,33 @@ export const getPrescriptionByPhysician = async (req, res) => {
 };
 
 //by doctor
+//to get their own prescriptions
+export const getPrescriptionByUser = async (req, res) => {
+  try {
+    const result = await PhysicianBookingModel.find({
+      $and: [
+        {
+          userId: req.user._id,
+        },
+        { physicianId: req.params.physicianId },
+        { consultation: "pending" },
+      ],
+    });
+
+    if (result[0]) {
+      const data = await PhysicianPrescription.findOne({
+        consultationId: result[0]._id,
+      });
+      res.send(data);
+    } else {
+      res.send({ message: "No prescription found" });
+    }
+  } catch (error) {
+    res.send({ message: error.message });
+  }
+};
+
+//by doctor
 //to edit his/her prescription given to users
 export const updatePrescription = async (req, res) => {
   try {

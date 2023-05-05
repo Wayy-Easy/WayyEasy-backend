@@ -1,6 +1,6 @@
 import express from "express";
 import { doctorsSignin, verifyUser } from "../../middlewares/auth.js";
-import { addPrescription, getPrescriptionByPhysician, updatePrescription } from "../../controllers/bookings/physicianPrescription.js";
+import { addPrescription, getPrescriptionByPhysician, getPrescriptionByUser, updatePrescription } from "../../controllers/bookings/physicianPrescription.js";
 
 const router = express.Router();
 
@@ -8,9 +8,9 @@ const router = express.Router();
 //to create new prescription
 router.post("/create/:userId", doctorsSignin, addPrescription);
 
-// //by user
-// //to get their own prescriptions
-// router.get('/get/:userId', verifyUser, getPrescription)
+//by user
+//to get their own prescriptions
+router.get('/getByUser/:physicianId', verifyUser, getPrescriptionByUser)
 
 //by user
 //to get their own prescriptions
