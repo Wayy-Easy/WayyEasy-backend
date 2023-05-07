@@ -25,6 +25,9 @@ import opds from "./routes/opdRoutes/opds.js";
 import pathLabs from "./routes/pathLabsRoute/pathLabs.js";
 import { doctorsSignin, verifyUser } from "./middlewares/auth.js";
 
+//search
+import webSearch from "./routes/search/webSearch.js";
+
 const app = express();
 dotEnv.config();
 app.use(express.json({ limit: "30mb", extended: true }));
@@ -37,10 +40,14 @@ app.get("/", (req, res) => {
   res.send("WayyEasy server is running successfully. You can make calls now.");
 });
 
-//images for users
+// images for websearch by users
+app.use("/api/webSearch/files/images", express.static("files/images"));
+
+
+//images for users app
 app.use("/api/files/images", verifyUser, express.static("files/images"));
 
-//images fro doctors
+//images for doctors app
 app.use(
   "/api/doctors/files/images",
   doctorsSignin,
@@ -67,6 +74,9 @@ app.use("/api/opdRoutes", opds);
 
 // pathLabs
 app.use("/api/pathLabs", pathLabs);
+
+//search
+app.use("/api/search", webSearch);
 
 mongoose
   .connect(
