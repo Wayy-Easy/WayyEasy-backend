@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotEnv from "dotenv";
 
+//admin routes
+import adminRoutes from "./routes/admin/adminRoutes.js";
+
 //hospital routes
 import doctorRoutes from "./routes/hospitalRoutes/doctorRoutes.js";
 import hospitalRoutes from "./routes/hospitalRoutes/hospitalRoutes.js";
@@ -17,6 +20,7 @@ import userRoutes from "./routes/userRoutes/userRoutes.js";
 import physicians from "./routes/physiciansRoute/physicians.js";
 import physicianBookings from "./routes/bookings/physicianBookings.js";
 import physicianPrescription from "./routes/bookings/physicianPriscription.js";
+import physicianBank from "./routes/physiciansRoute/physicianBank.js";
 
 //opd routes
 import opds from "./routes/opdRoutes/opds.js";
@@ -40,19 +44,8 @@ app.get("/", (req, res) => {
   res.send("WayyEasy server is running successfully. You can make calls now.");
 });
 
-// images for websearch by users
-app.use("/api/webSearch/files/images", express.static("files/images"));
-
-
-//images for users app
-app.use("/api/files/images", verifyUser, express.static("files/images"));
-
-//images for doctors app
-app.use(
-  "/api/doctors/files/images",
-  doctorsSignin,
-  express.static("files/images")
-);
+//admin
+app.use("/api/admin", adminRoutes);
 
 //hospital
 app.use("/api/doctor", doctorRoutes);
@@ -68,6 +61,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/physicians", physicians);
 app.use("/api/physicianBookings", physicianBookings);
 app.use("/api/physicianPrescription", physicianPrescription);
+app.use("/api/physiciansBank", physicianBank);
 
 // opds
 app.use("/api/opdRoutes", opds);
@@ -77,6 +71,26 @@ app.use("/api/pathLabs", pathLabs);
 
 //search
 app.use("/api/search", webSearch);
+
+
+
+
+
+
+/*****************************************************************************************************/
+
+// images for websearch by users
+app.use("/api/webSearch/files/images", express.static("files/images"));
+
+//images for users app
+app.use("/api/files/images", verifyUser, express.static("files/images"));
+
+//images for doctors app
+app.use(
+  "/api/doctors/files/images",
+  doctorsSignin,
+  express.static("files/images")
+);
 
 mongoose
   .connect(

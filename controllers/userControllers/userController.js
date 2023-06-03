@@ -37,6 +37,7 @@ export const signup = async (req, res) => {
 };
 
 export const verifyOtp = async (req, res) => {
+  /*
   const otpHolders = await userOTPModel.find({ number: req.body.number });
   if (otpHolders.length === 0)
     return res.status(400).send({ message: "Invalid OTP found!" });
@@ -77,6 +78,38 @@ export const verifyOtp = async (req, res) => {
       });
     }
   } else return res.status(400).send({ message: "OTP did not match" });
+  */
+
+
+
+  
+  //Firebase mobile auth
+
+  const existingUser = await User.findOne({ number: req.body.number });
+  if (existingUser) {
+    const user = await User.findByIdAndUpdate(existingUser._id, existingUser, {
+      new: true,
+    });
+    const token = user.generateJWT();
+    return res.status(201).send({
+      message: "User updated successfully",
+      success: true,
+      token: token,
+      data: user,
+    });
+  } else {
+    const user = new User(lodash.pick(req.body, ["number"]));
+    const token = user.generateJWT();
+    const result = await user.save();
+
+    return res.status(201).send({
+      message: "User created successfully",
+      success: true,
+      token: token,
+      data: result,
+    });
+  }
+  l̥;
 };
 
 export const updateProfile = async (req, res) => {
