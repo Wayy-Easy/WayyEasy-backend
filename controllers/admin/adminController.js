@@ -14,7 +14,7 @@ export const addPayment = async (req, res) => {
 export const getPaymentLsit = async (req, res) => {
   try {
     if (req.user.role === "admin") {
-      const data = await AdminPayments.find();
+      const data = await AdminPayments.find({ paymentStatus: "Pending" });
       res.send(data);
     } else res.json({ message: "Only admin is allowed to access this" });
   } catch (error) {
