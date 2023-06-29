@@ -6,7 +6,7 @@ import {
   fetchPhysiciansByUser,
   fetchSinglePhysicianConsultationPendingByUser,
   finishConsultation,
-} from "../../controllers/bookings/physicianBookings.js";
+} from "../../controllers/physiciansController/physicianBookings.js";
 
 const router = express.Router();
 

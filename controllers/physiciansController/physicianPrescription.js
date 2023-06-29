@@ -1,5 +1,5 @@
-import PhysicianPrescription from "../../models/bookings/physicianPrescription.js";
-import PhysicianBookingModel from "../../models/bookings/physicianBookings.js";
+import PhysicianPrescription from "../../models/PhysiciansModels/physicianPrescription.js";
+import PhysicianBookingModel from "../../models/PhysiciansModels/physicianBookings.js";
 
 //by doctor
 //to create new prescription

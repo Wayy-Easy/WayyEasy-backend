@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
 import lodash from "lodash";
-import springedge from "springedge";
 import User from "../../models/userModels/userModel.js";
 import userOTPModel from "../../models/userModels/userOTPModel.js";
 import PhysicianRatings from "../../models/PhysiciansModels/PhysicianRatings.js";
@@ -21,13 +20,6 @@ export const signup = async (req, res) => {
       message: "Hello, This is a test message from spring edge",
       format: "json",
     };
-
-    // springedge.messages.send(params, 5000, function (err, response) {
-    //   if (err) {
-    //     return console.log(err);
-    //   }
-    //   console.log(response);
-    // });
 
     await userOTPModel.create({ number: req.body.number, otp: hashed_otp });
     return res.status(201).send({ message: "OTP send successfully!" });

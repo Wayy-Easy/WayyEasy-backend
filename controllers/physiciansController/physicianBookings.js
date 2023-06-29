@@ -1,4 +1,4 @@
-import PhysicianBooking from "../../models/bookings/physicianBookings.js";
+import PhysicianBooking from "../../models/PhysiciansModels/physicianBookings.js";
 import UserModel from "../../models/userModels/userModel.js";
 import PhysiciansModel from "../../models/PhysiciansModels/Physicians.js";
 

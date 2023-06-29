@@ -1,4 +1,4 @@
-import Model from "../../models/hospitalModels/ownerModel.js";
+import Model from "../../models/auth/ownerModel.js";
 import jwt from "jsonwebtoken";
 
 export const signup = async (req, res) => {

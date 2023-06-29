@@ -9,7 +9,7 @@ import adminRoutes from "./routes/admin/adminRoutes.js";
 //hospital routes
 import doctorRoutes from "./routes/hospitalRoutes/doctorRoutes.js";
 import hospitalRoutes from "./routes/hospitalRoutes/hospitalRoutes.js";
-import ownerRoutes from "./routes/hospitalRoutes/ownerRoutes.js";
+import ownerRoutes from "./routes/auth/ownerRoutes.js";
 import ratingRoutes from "./routes/hospitalRoutes/ratingRoutes.js";
 import roomRoutes from "./routes/hospitalRoutes/roomsRoutes.js";
 
@@ -18,8 +18,8 @@ import userRoutes from "./routes/userRoutes/userRoutes.js";
 
 //physicians routes
 import physicians from "./routes/physiciansRoute/physicians.js";
-import physicianBookings from "./routes/bookings/physicianBookings.js";
-import physicianPrescription from "./routes/bookings/physicianPriscription.js";
+import physicianBookings from "./routes/physiciansRoute/physicianBookings.js";
+import physicianPrescription from "./routes/physiciansRoute/physicianPriscription.js";
 import physicianBank from "./routes/physiciansRoute/physicianBank.js";
 
 //opd routes

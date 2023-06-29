@@ -1,5 +1,4 @@
 import Model from "../../models/hospitalModels/doctorModel.js";
-import User from "../../models/hospitalModels/ownerModel.js";
 
 export const createDoctor = async (req, res) => {
   const data = req.body;
