@@ -7,6 +7,11 @@ const adminPayments = new mongoose.Schema(
       ref: "Physician",
       required: true,
     },
+    userId: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     amountReceived: {
       type: String,
       required: true,

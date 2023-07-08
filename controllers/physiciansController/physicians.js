@@ -157,7 +157,9 @@ export const editPhysicians = async (req, res) => {
       if (existingUser?.image) {
         1;
         try {
-          fs.unlinkSync(existingUser.image);
+          fs.unlink(existingUser.image, function (err) {
+            if (err) return res.status(404).send(err);
+          });
         } catch (error) {
           console.log("error 135: ", error);
         }

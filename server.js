@@ -4,7 +4,8 @@ import cors from "cors";
 import dotEnv from "dotenv";
 
 //admin routes
-import adminRoutes from "./routes/admin/adminRoutes.js";
+import paymentRoutes from "./routes/admin/paymentRoutes.js";
+import articleRoutes from "./routes/admin/articleRoutes.js";
 
 //hospital routes
 import doctorRoutes from "./routes/hospitalRoutes/doctorRoutes.js";
@@ -45,7 +46,8 @@ app.get("/", (req, res) => {
 });
 
 //admin
-app.use("/api/admin", adminRoutes);
+app.use("/api/admin/payment", paymentRoutes);
+app.use("/api/admin/articles", articleRoutes);
 
 //hospital
 app.use("/api/doctor", doctorRoutes);
@@ -71,11 +73,6 @@ app.use("/api/pathLabs", pathLabs);
 
 //search
 app.use("/api/search", webSearch);
-
-
-
-
-
 
 /*****************************************************************************************************/
 

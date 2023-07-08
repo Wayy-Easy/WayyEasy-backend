@@ -5,7 +5,7 @@ import {
   finishPayment,
   getPaymentFullDetails,
   getPaymentLsit,
-} from "../../controllers/admin/adminController.js";
+} from "../../controllers/admin/paymentsController.js";
 
 const router = express.Router();
 

@@ -1,5 +1,4 @@
 import Model from "../../models/hospitalModels/hospitalModel.js";
-import User from "../../models/auth/ownerModel.js";
 import Ratings from "../../models/hospitalModels/retingsModel.js";
 
 export const createHospital = async (req, res) => {
