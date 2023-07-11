@@ -47,7 +47,7 @@ export const signin = async (req, res) => {
           httpOnly: true,
         });
         res.status(200).json({ user, token });
-      } else return res.status(406).json("Incorrect credentails");
+      } else return res.send("Incorrect credentails");
     }
   } catch (error) {
     console.error(error);
