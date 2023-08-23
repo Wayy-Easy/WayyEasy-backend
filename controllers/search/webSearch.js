@@ -2,7 +2,6 @@ import PhysicianModel from "../../models/PhysiciansModels/Physicians.js";
 
 export const getDatainWebSearch = async (req, res) => {
   try {
-    console.log(req.query.addressAndSpeciality);
     switch (req.query.searchType) {
       case "physician":
         let data = null;
@@ -49,13 +48,10 @@ export const getDatainWebSearch = async (req, res) => {
         res.status(200).send(data);
         break;
       case "hospital":
-        console.log("hospital chosen");
         break;
       case "opd":
-        console.log("opd chosen");
         break;
       case "pathLab":
-        console.log("pathlab chosen");
         break;
 
       default:
