@@ -207,6 +207,8 @@ export const editPhysicians = async (req, res) => {
   }
 };
 
+//by doctor
+//to get single physician details using physician id
 export const getPhysiciansById = async (req, res) => {
   const { physicianId } = req.params;
 
@@ -215,6 +217,26 @@ export const getPhysiciansById = async (req, res) => {
     res.status(200).send(fetechedPhysician);
   } catch (error) {
     res.json({ message: error.message });
+  }
+};
+
+//by user
+//to get single physician fcmToekn using physician id
+export const getPhysicianFCMTokenById = async (req, res) => {
+  const { physicianId } = req.params;
+  if (physicianId) {
+    try {
+      const fetechedPhysician = await Model.find(
+        { _id: physicianId },
+        { fcmToken: 1, name: 1 }
+      );
+      // const fetechedPhysician = await Model.find({ _id: physicianId });
+      res.status(200).send(fetechedPhysician[0]);
+    } catch (error) {
+      res.json({ message: error.message });
+    }
+  } else {
+    res.json({ message: "Physician id is not provide 'Error Code: PH-4431" });
   }
 };
 

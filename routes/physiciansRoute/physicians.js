@@ -2,6 +2,7 @@ import express from "express";
 import {
   editPhysicians,
   fetchAllPhysicians,
+  getPhysicianFCMTokenById,
   getPhysiciansById,
   logout,
   signin,
@@ -22,6 +23,11 @@ router.post("/signout", doctorsSignin, logout);
 router.get("/getPhysiciansById/:physicianId", doctorsSignin, getPhysiciansById);
 router.patch("/updateToken", doctorsSignin, updateToken);
 
+router.get(
+  "/getPhysiciansTokenByUser/:physicianId",
+  verifyUser,
+  getPhysicianFCMTokenById
+);
 router.get("/getPhysician/:dataType", verifyUser, fetchAllPhysicians);
 router.patch("/edit/:id", requireSignin, editPhysicians);
 
