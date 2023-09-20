@@ -89,7 +89,7 @@ app.use(
   express.static("files/images")
 );
 
-app.listen(PORT);
+app.listen(PORT, () => console.log(`Successfully connected to ${PORT}`));
 
 // mongoose
 //   .connect(
