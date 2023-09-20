@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 export const requireSignin = (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
+    const token = req.headers?.authorization?.split(" ")[1];
     if (token) {
       const user = jwt.verify(token, process.env.JWT_SECRET_KEY);
       req.user = user;
@@ -16,7 +16,7 @@ export const requireSignin = (req, res, next) => {
 
 export const verifyUser = (req, res, next) => {
   try {
-    if (req.headers.authorization) {
+    if (req.headers?.authorization) {
       const token = req.headers.authorization.split(" ")[1];
       const user = jwt.verify(token, process.env.USER_SECRET_KEY);
       req.user = user;
@@ -32,7 +32,7 @@ export const verifyUser = (req, res, next) => {
 
 export const doctorsSignin = (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
+    const token = req.headers?.authorization?.split(" ")[1];
     if (token) {
       const user = jwt.verify(token, process.env.DOCTORS_SECRET_KEY);
       req.user = user;
