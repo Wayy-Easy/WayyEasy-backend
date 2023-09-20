@@ -42,7 +42,6 @@ app.use(cors());
 const PORT = process.env.PORT || 2001;
 
 app.get("/", (req, res) => {
-  console.log(req.headers["authorization"]?.length);
   res.send("WayyEasy server is running successfully.");
 });
 
