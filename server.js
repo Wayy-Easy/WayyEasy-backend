@@ -45,6 +45,11 @@ app.get("/", (req, res) => {
   res.send("WayyEasy server is running successfully.");
 });
 
+/*
+
+
+
+
 //admin
 app.use("/api/admin/payment", paymentRoutes);
 app.use("/api/admin/articles", articleRoutes);
@@ -74,7 +79,9 @@ app.use("/api/pathLabs", pathLabs);
 //search
 app.use("/api/search", webSearch);
 
-/*****************************************************************************************************/
+// /*****************************************************************************************************/
+
+/*
 
 // images for websearch by users
 app.use("/api/webSearch/files/images", express.static("files/images"));
@@ -88,6 +95,8 @@ app.use(
   doctorsSignin,
   express.static("files/images")
 );
+
+*/
 
 app.listen(PORT, () => console.log(`Successfully connected to ${PORT}`));
 
