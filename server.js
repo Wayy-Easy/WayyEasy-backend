@@ -42,7 +42,7 @@ app.use(cors());
 const PORT = process.env.PORT || 2001;
 
 app.get("/", (req, res) => {
-  res.send("WayyEasy server is running successfully.");
+  res.send("WayyEasy server is running successfully !!!");
 });
 
 //admin
@@ -89,19 +89,17 @@ app.use(
   express.static("files/images")
 );
 
-app.listen(PORT, () => console.log(`Successfully connected to ${PORT}`));
-
-// mongoose
-//   .connect(
-//     // "mongodb://127.0.0.1:27017/wayyeasy",
-//     process.env.MONGO_CONNECTION_URL,
-//     // process.env.MONGO_TEST_CONNECTION_URL,
-//     {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     }
-//   )
-//   .then(() =>
-//     app.listen(PORT, () => console.log(`Successfully connected to ${PORT}`))
-//   )
-//   .catch((error) => console.log("error: ", error));
+mongoose
+  .connect(
+    // "mongodb://127.0.0.1:27017/wayyeasy",
+    process.env.MONGO_CONNECTION_URL,
+    // process.env.MONGO_TEST_CONNECTION_URL,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() =>
+    app.listen(PORT, () => console.log(`Successfully connected to ${PORT}`))
+  )
+  .catch((error) => console.log("error: ", error));
