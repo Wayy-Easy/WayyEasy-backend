@@ -42,52 +42,48 @@ app.use(cors());
 const PORT = process.env.PORT || 2001;
 
 app.get("/", (req, res) => {
-  res.send("WayyEasy server is running successfully!");
+  res.send("Welcome to the Wayyeasy-server.");
 });
 
 //admin
-app.use("/api/admin/payment", paymentRoutes);
-app.use("/api/admin/articles", articleRoutes);
+app.use("/admin/payment", paymentRoutes);
+app.use("/admin/articles", articleRoutes);
 
 //hospital
-app.use("/api/doctor", doctorRoutes);
-app.use("/api/hospital", hospitalRoutes);
-app.use("/api/owner", ownerRoutes);
-app.use("/api/ratings", ratingRoutes);
-app.use("/api/room", roomRoutes);
+app.use("/doctor", doctorRoutes);
+app.use("/hospital", hospitalRoutes);
+app.use("/owner", ownerRoutes);
+app.use("/ratings", ratingRoutes);
+app.use("/room", roomRoutes);
 
 //user
-app.use("/api/user", userRoutes);
+app.use("/user", userRoutes);
 
 // physicians
-app.use("/api/physicians", physicians);
-app.use("/api/physicianBookings", physicianBookings);
-app.use("/api/physicianPrescription", physicianPrescription);
-app.use("/api/physiciansBank", physicianBank);
+app.use("/physicians", physicians);
+app.use("/physicianBookings", physicianBookings);
+app.use("/physicianPrescription", physicianPrescription);
+app.use("/physiciansBank", physicianBank);
 
 // opds
-app.use("/api/opdRoutes", opds);
+app.use("/opdRoutes", opds);
 
 // pathLabs
-app.use("/api/pathLabs", pathLabs);
+app.use("/pathLabs", pathLabs);
 
 //search
-app.use("/api/search", webSearch);
+app.use("/search", webSearch);
 
 /*****************************************************************************************************/
 
 // images for websearch by users
-app.use("/api/webSearch/files/images", express.static("files/images"));
+app.use("/webSearch/files/images", express.static("files/images"));
 
 //images for users app
-app.use("/api/files/images", verifyUser, express.static("files/images"));
+app.use("/files/images", verifyUser, express.static("files/images"));
 
 //images for doctors app
-app.use(
-  "/api/doctors/files/images",
-  doctorsSignin,
-  express.static("files/images")
-);
+app.use("/doctors/files/images", doctorsSignin, express.static("files/images"));
 
 mongoose
   .connect(
