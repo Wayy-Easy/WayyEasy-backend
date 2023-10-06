@@ -42,7 +42,7 @@ app.use(cors());
 const PORT = process.env.PORT || 2001;
 
 app.get("/", (req, res) => {
-  res.send("Welcome to the Wayyeasy Server...");
+  res.send("Welcome to the Wayyeasy Server... !");
 });
 
 //admin
