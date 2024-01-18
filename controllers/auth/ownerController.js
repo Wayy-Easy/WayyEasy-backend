@@ -32,7 +32,7 @@ export const signin = async (req, res) => {
   try {
     const user = await Model.findOne({ email });
 
-    if (!user) return res.status(404).json("User not found");
+    if (!user) return res.status(404).send("User not found");
 
     if (user) {
       if (user.authenticate(password)) {

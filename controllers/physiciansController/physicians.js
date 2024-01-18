@@ -39,7 +39,6 @@ export const signup = async (req, res) => {
 
 export const signin = async (req, res) => {
   const password = req.body.password;
-
   try {
     const result = await Model.findOne({
       $or: [{ mobile: req.body.email }, { email: req.body.email }],

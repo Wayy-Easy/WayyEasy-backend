@@ -19,7 +19,7 @@ export const requireSignin = (req, res, next) => {
 export const verifyUser = (req, res, next) => {
   try {
     if (req.headers["authorization"]?.length > 0) {
-      const token = req.header["authorization"]?.split(" ")[1];
+      const token = req.headers["authorization"]?.split(" ")[1];
       const user = jwt.verify(token, process.env.USER_SECRET_KEY);
       req.user = user;
       next();

@@ -32,6 +32,7 @@ import { doctorsSignin, verifyUser } from "./middlewares/auth.js";
 
 //search
 import webSearch from "./routes/search/webSearch.js";
+import { InitiateSnapshort } from "./helper/fileToZip.js";
 
 const app = express();
 dotEnv.config();
@@ -43,6 +44,15 @@ const PORT = process.env.PORT || 2001;
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Wayyeasy Server !");
+});
+
+app.post("/takeSnapshot-snap-files", (req, res) => {
+  InitiateSnapshort();
+  res.status(200).send("Snapsort taken successfull.");
+});
+
+app.get("/download-snap-files", (req, res) => {
+  res.download("./Backup.tar.gz");
 });
 
 //admin
